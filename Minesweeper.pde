@@ -67,7 +67,6 @@ public void displayLosingMessage()
 }
 public void displayWinningMessage()
 {
-  System.out.println("you win");
   buttons[10][7].setLabel("Y");
   buttons[10][8].setLabel("O");
   buttons[10][9].setLabel("U");
