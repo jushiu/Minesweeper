@@ -1,6 +1,6 @@
 import de.bezier.guido.*;
-public final static int NUM_ROWS = 5;
-public final static int NUM_COLS = 5;
+public final static int NUM_ROWS = 25;
+public final static int NUM_COLS = 25;
 int numUnopenedCells = NUM_ROWS*NUM_COLS;
 private MSButton[][] buttons; //2d array of minesweeper buttons
 private ArrayList <MSButton> mines = new ArrayList <MSButton>(); //ArrayList of just the minesweeper buttons that are mined
@@ -21,26 +21,27 @@ void setup ()
       }
     }
     
-    
-    setMines();
+    for(int i = 0; i < 80; i++) {
+      setMines();
+    }
 }
 public void setMines()
 {
-  //for(int i = 0; i < 10; i++) {
     int row = (int)(Math.random()*NUM_ROWS);
     int col = (int)(Math.random()*NUM_COLS);
     if(!mines.contains(buttons[row][col]) ){
       mines.add(buttons[row][col]);
     }
-  //}
+    System.out.println("num mines " + mines.size());
 }
 
 public void draw ()
 {
     background( 0 );
-    if(isWon() == true)
+    if(isWon() == true) {
         displayWinningMessage();
         noLoop();
+    }
 }
 public boolean isWon()
 {
@@ -55,35 +56,34 @@ public boolean isWon()
 }
 public void displayLosingMessage()
 {
-  //buttons[10][2].setLabel("Y");
-  //buttons[10][3].setLabel("O");
-  //buttons[10][4].setLabel("U");
-  //buttons[10][6].setLabel("L");
-  //buttons[10][7].setLabel("O");
-  //buttons[10][8].setLabel("S");
-  //buttons[10][9].setLabel("E");
-  //for(int i = 0; i < mines.size(); i++) {
-  //  mines.get(i).mousePressed();
-  //}
+  buttons[10][7].setLabel("Y");
+  buttons[10][8].setLabel("O");
+  buttons[10][9].setLabel("U");
+  buttons[10][11].setLabel("L");
+  buttons[10][12].setLabel("O");
+  buttons[10][13].setLabel("S");
+  buttons[10][14].setLabel("E");
+  for(int i = 0; i < mines.size(); i++) {
+    mines.get(i).clicked = true;
+  }
   System.out.println("You Lose");
 }
 public void displayWinningMessage()
 {
-  //System.out.println("you win");
-  //buttons[10][3].setLabel("Y");
-  //buttons[10][4].setLabel("O");
-  //buttons[10][5].setLabel("U");
-  //buttons[10][7].setLabel("W");
-  //buttons[10][8].setLabel("I");
-  //buttons[10][9].setLabel("N");
+  System.out.println("you win");
+  buttons[10][7].setLabel("Y");
+  buttons[10][8].setLabel("O");
+  buttons[10][9].setLabel("U");
+  buttons[10][11].setLabel("W");
+  buttons[10][12].setLabel("I");
+  buttons[10][13].setLabel("N");
   System.out.println("You Win");
 }
 public boolean isValid(int r, int c)
 {
    if((r >= 0 && r < NUM_ROWS) && (c >= 0 && c < NUM_COLS) ){
      return true;
-   } 
-   else {
+   } else {
     return false;
    }
 }
@@ -130,6 +130,7 @@ public class MSButton
         }
         else if(mines.contains(this)) {
           displayLosingMessage();
+          noLoop();
         }
         else if(countMines(myRow, myCol) > 0) {
           myLabel = "" + countMines(myRow, myCol);
@@ -138,8 +139,9 @@ public class MSButton
           for(int i = myRow - 1; i <= myRow+1; i++) {
             for(int j = myCol - 1; j <= myCol+1; j++) {
               if(isValid(i,j) && buttons[i][j].clicked == false) {
-                numUnopenedCells--;
+                //if(i != myRow || j != myCol) {
                   buttons[i][j].mousePressed();
+                //}
               }
             }
           }
